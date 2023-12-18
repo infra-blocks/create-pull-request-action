@@ -1,6 +1,7 @@
 name: Create Pull Request Action
 description: |
-  Simply creates a pull request using the GitHub API.
+  Simply creates a pull request using the GitHub API. The main advantage over using the GH cli, for example,
+  is that you get the API response payload as an output directly.
 inputs:
   head:
     description: |
@@ -23,8 +24,7 @@ inputs:
     required: false
   github-token:
     description: |
-      The GitHub token to authenticate with the API. If this is the generated GITHUB_TOKEN, it should have the
-      pull-requests: write permissions. If it is a PAT, then it should have the proper scope on the repository.
+      The GitHub token to authenticate with the API.
     required: true
     default: ${{ github.token }}
   repository:

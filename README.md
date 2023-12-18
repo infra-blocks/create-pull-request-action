@@ -1,16 +1,34 @@
 # create-pull-request-action
 
-This is a template repository and several updates should be taken after using it as a repository generator:
-- Update this README to reflect the new action
-- Update package.json fields such as name, description, etc...
-- Update action.yml
-- Update entrypoint.sh to remap your command's arguments/inputs
-- Update the container name in docker-compose.yml
-- Update self-test.yml workflow
+This action simply calls the GitHub API to create a pull request with the provided parameters.
+It also returns the response from the API as a stringified JSON output.
+
+If the authentication token passed is the generated GITHUB_TOKEN, it should have the
+pull-requests: write permissions. It should be noted also, that the GITHUB_TOKEN used when creating
+pull requests [*won't trigger the majority of workflows*.](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
 
 ## Usage
 
-Describe the action usage here, and provide an example invocation in a GitHub workflow.
+```yaml
+name: Create the pull request yo
+
+on: [push]
+
+jobs:
+  some-work:
+    steps:
+      - name: Create Pull Request
+        id: create-pull-request
+        uses: infrastructure-blocks/create-pull-request-action@v1
+        with:
+          head: ${{ steps.merge-template-branch.outputs.branch }}
+          base: master
+          title: Update from template - ${{ steps.merge-template.branch.outputs.date }}
+          github-token: ${{ secrets.github-pat }}
+      - name: Report PR number
+        run: |
+          echo "Success, created new PR: ${{ fromJson(steps.create-pull-request.outputs.pull-request).number }}"
+```
 
 ## Development
 
