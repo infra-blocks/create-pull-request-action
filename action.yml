@@ -1,20 +1,61 @@
-name: Composite action template
+name: Create Pull Request Action
 description: |
-  This action does nothing meaningful.
-
+  Simply creates a pull request using the GitHub API.
 inputs:
-  example-input:
-    description: A useless input as an example
+  head:
+    description: |
+      The name of the branch where your changes are implemented. For cross-repository pull requests in the same network,
+      namespace head with a user like this: username:branch.
     required: true
+  base:
+    description: |
+      The name of the branch you want the changes pulled into. This should be an existing branch on the current repository.
+      You cannot submit a pull request to one repository that requests a merge to a base of another repository.
+    required:
+      true
+  title:
+    description: |
+      The pull request title.
+    required: false
+  body:
+    description: |
+      The pull request body.
+    required: false
+  github-token:
+    description: |
+      The GitHub token to authenticate with the API.
+    required: true
+    default: ${{ github.token }}
+  repository:
+    description: |
+      The repository where the pull request will be opened.
+    required: false
+    default: ${{ github.repository }}
 outputs:
-  example-output:
-    description: You know it.
-    value: ${{ steps.generate-output.outputs.example-output }}
+  pull-request:
+    description: The created pull request payload, as returned by the [api](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#create-a-pull-request).
+    value: ${{ steps.create-pull-request.outputs.result }}
 runs:
   using: "composite"
   steps:
-    - run: echo "here is your input :${{ inputs.example-input }}."
-      shell: bash
-    - id: generate-output
-      run: echo "example-output=here is your output"
-      shell: bash
+    - id: create-pull-request
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const repository = ${{ toJson(inputs.repository) }}
+          const [owner, repo] = repository.split("/");
+          
+          const response = await github.request(
+            "POST /repos/{owner}/{repo}/pulls",
+            {
+              owner,
+              repo,
+              head: ${{ toJson(inputs.head) }},
+              base: ${{ toJson(inputs.base) }},
+              title: ${{ (inputs.title == '' && 'undefined') || toJson(inputs.title) }},
+              body: ${{ (inputs.body == '' && 'undefined') || toJson(inputs.body) }},
+            }
+          );
+    
+          return response.data;

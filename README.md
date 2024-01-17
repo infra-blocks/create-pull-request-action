@@ -1,10 +1,11 @@
-# composite-action-template
+# create-pull-request-action
 
-Upon creating a repository from this template:
-- Remove the [trigger-update-from-template workflow](.github/workflows/trigger-update-from-template.yml)
-- Edit the action.yml to correspond to your new action
-- Edit the self-test workflow.
-- Edit this readme: this summary and the usage section.
+This action simply calls the GitHub API to create a pull request with the provided parameters.
+It also returns the response from the API as a stringified JSON output.
+
+If the authentication token passed is the generated GITHUB_TOKEN, it should have the
+pull-requests: write permissions. It should be noted also, that the GITHUB_TOKEN used when creating
+pull requests [*won't trigger the majority of workflows*.](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
 
 ## Inputs
 
