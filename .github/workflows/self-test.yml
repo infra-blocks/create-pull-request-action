@@ -6,7 +6,6 @@ permissions:
 
 on:
   push:
-    # This turns off running for tags
     branches:
       - "**"
 

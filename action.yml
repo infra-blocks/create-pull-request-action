@@ -1,7 +1,6 @@
 name: Create Pull Request Action
 description: |
-  Simply creates a pull request using the GitHub API. The main advantage over using the GH cli, for example,
-  is that you get the API response payload as an output directly.
+  Simply creates a pull request using the GitHub API.
 inputs:
   head:
     description: |
@@ -35,6 +34,28 @@ inputs:
 outputs:
   pull-request:
     description: The created pull request payload, as returned by the [api](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#create-a-pull-request).
+    value: ${{ steps.create-pull-request.outputs.result }}
 runs:
-  using: "docker"
-  image: Dockerfile
+  using: "composite"
+  steps:
+    - id: create-pull-request
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const repository = ${{ toJson(inputs.repository) }}
+          const [owner, repo] = repository.split("/");
+          
+          const response = await github.request(
+            "POST /repos/{owner}/{repo}/pulls",
+            {
+              owner,
+              repo,
+              head: ${{ toJson(inputs.head) }},
+              base: ${{ toJson(inputs.base) }},
+              title: ${{ (inputs.title == '' && 'undefined') || toJson(inputs.title) }},
+              body: ${{ (inputs.body == '' && 'undefined') || toJson(inputs.body) }},
+            }
+          );
+    
+          return response.data;

@@ -1,7 +1,0 @@
-services:
-  action:
-    image: infra-blocks/create-pull-request-action
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    container_name: create-pull-request-action
