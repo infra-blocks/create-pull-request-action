@@ -1,53 +1,54 @@
-# create-pull-request-action
+# composite-action-template
 
-This action simply calls the GitHub API to create a pull request with the provided parameters.
-It also returns the response from the API as a stringified JSON output.
+Upon creating a repository from this template:
+- Remove the [trigger-update-from-template workflow](.github/workflows/trigger-update-from-template.yml)
+- Edit the action.yml to correspond to your new action
+- Edit the self-test workflow.
+- Edit this readme: this summary and the usage section.
 
-If the authentication token passed is the generated GITHUB_TOKEN, it should have the
-pull-requests: write permissions. It should be noted also, that the GITHUB_TOKEN used when creating
-pull requests [*won't trigger the majority of workflows*.](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
+## Inputs
+
+|     Name      | Required | Description       |
+|:-------------:|:--------:|-------------------|
+| example-input |   true   | An example input. |
+
+## Outputs
+
+|      Name      | Description        |
+|:--------------:|--------------------|
+| example-output | An example output. |
+
+## Permissions
+
+|     Scope     | Level | Reason   |
+|:-------------:|:-----:|----------|
+| pull-requests | read  | Because. |
 
 ## Usage
 
 ```yaml
-name: Create the pull request yo
+name: Template Usage
 
-on: [push]
+on:
+  push: ~
+
+# The required permissions.
+permissions:
+  pull-requests: read
+
+# The suggested concurrency controls.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  some-work:
+  example-job:
+    runs-on: ubuntu-22.04
     steps:
-      - name: Create Pull Request
-        id: create-pull-request
-        uses: infrastructure-blocks/create-pull-request-action@v1
-        with:
-          head: ${{ steps.merge-template-branch.outputs.branch }}
-          base: master
-          title: Update from template - ${{ steps.merge-template.branch.outputs.date }}
-          github-token: ${{ secrets.github-pat }}
-      - name: Report PR number
-        run: |
-          echo "Success, created new PR: ${{ fromJson(steps.create-pull-request.outputs.pull-request).number }}"
+      - uses: infrastructure-blocks/composite-action-template@v1
 ```
 
 ## Development
-
-This project is written in Typescript and leverages `nvm` to manage its version. It also uses Git hooks
-to automatically build and commit compiled code. This last part emerges from the fact that GitHub actions
-run Javascript (and not typescript) and that all the node_modules/ are expected to be provided in the Git
-repository of the action.
-
-Having a Git hook to compile automatically helps in diminishing the chances that a developer forgets to
-provide the compiled sources in a change request.
-
-### Setup
-
-Once `nvm` is installed, simply run the following:
-
-```
-nvm install
-npm install
-``` 
 
 ### Releasing
 

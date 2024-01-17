@@ -1,14 +1,7 @@
-name: Self Test
-
-permissions:
-  contents: write
-  pull-requests: write
+name: Self test
 
 on:
-  push:
-    # This turns off running for tags
-    branches:
-      - "**"
+  push: ~
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,33 +12,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Generate date
-        id: generate-id
-        run: |
-          uuid=$(uuidgen -t)
-          echo "id=${uuid}" >> "${GITHUB_OUTPUT}"
-          echo "branch=self-test/${uuid}" >> "${GITHUB_OUTPUT}"
-      - name: Make fake ass branch
-        run: |
-          git checkout -b ${{ steps.generate-id.outputs.branch }}
-          git push origin ${{ steps.generate-id.outputs.branch }}
-      - uses: ./
-        id: self-test
+      - id: composite-action
+        uses: ./
         with:
-          head: self-test/${{ steps.generate-id.outputs.id }}
-          base: master
-          title: |
-            Just a test ass branch
-          body: |
-            Just testinz
-      - name: Close pull request
-        run: |
-          curl -L \
-            -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/pulls/${{ fromJson(steps.self-test.outputs.pull-request).number }} \
-            -d '{"state":"closed" }'
-          
-          git push origin --delete ${{ steps.generate-id.outputs.branch }}
+          example-input: Hello?
+      - run: |
+          echo ${{ steps.composite-action.outputs.example-output }}
