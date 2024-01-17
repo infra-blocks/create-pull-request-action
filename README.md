@@ -9,44 +9,36 @@ pull requests [*won't trigger the majority of workflows*.](https://docs.github.c
 
 ## Inputs
 
-|     Name      | Required | Description       |
-|:-------------:|:--------:|-------------------|
-| example-input |   true   | An example input. |
+|     Name     | Required | Description                                                                                                                                                                                                                     |
+|:------------:|:--------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     head     |   true   | The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace head with a user like this: username:branch.                                                       |
+|     base     |   true   | The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository. |
+|    title     |  false   | The pull request title.                                                                                                                                                                                                         |
+|     body     |  false   | The pull request body.                                                                                                                                                                                                          |
+| github-token |  false   | The GitHub token to authenticate with the API. Defaults to ${{ github.token }}                                                                                                                                                  |
+|  repository  |  false   | The repository where the pull request will be opened. Defaults to ${{ github.repository }}.                                                                                                                                     |
 
 ## Outputs
 
-|      Name      | Description        |
-|:--------------:|--------------------|
-| example-output | An example output. |
+|     Name     | Description                                                                                                                                          |
+|:------------:|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| pull-request | The created pull request payload, as returned by the [api](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#create-a-pull-request). |
 
 ## Permissions
 
-|     Scope     | Level | Reason   |
-|:-------------:|:-----:|----------|
-| pull-requests | read  | Because. |
+If you're using the GITHUB_TOKEN, then it should have the following permissions:
+
+|     Scope     | Level | Reason                        |
+|:-------------:|:-----:|-------------------------------|
+| pull-requests | write | To create a pull request esé. |
 
 ## Usage
 
 ```yaml
-name: Template Usage
-
-on:
-  push: ~
-
-# The required permissions.
-permissions:
-  pull-requests: read
-
-# The suggested concurrency controls.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  example-job:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: infrastructure-blocks/composite-action-template@v1
+- uses: infrastructure-blocks/create-pull-request-action@v1
+  with:
+    head: feature/your-branch
+    base: main
 ```
 
 ## Development

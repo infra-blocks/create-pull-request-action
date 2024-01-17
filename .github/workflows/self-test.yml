@@ -6,8 +6,8 @@ permissions:
 
 on:
   push:
-    branches:
-      - "**"
+    branches-ignore:
+      - master
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
