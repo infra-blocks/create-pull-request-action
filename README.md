@@ -1,7 +1,7 @@
 # create-pull-request-action
 [![Release](https://github.com/infrastructure-blocks/create-pull-request-action/actions/workflows/git-tag-semver-from-label.yml/badge.svg)](https://github.com/infrastructure-blocks/create-pull-request-action/actions/workflows/git-tag-semver-from-label.yml)
 [![Self Test](https://github.com/infrastructure-blocks/create-pull-request-action/actions/workflows/self-test.yml/badge.svg)](https://github.com/infrastructure-blocks/create-pull-request-action/actions/workflows/self-test.yml)
-[![Update](https://github.com/infrastructure-blocks/create-pull-request-action/actions/workflows/update-from-template.yml/badge.svg)](https://github.com/infrastructure-blocks/create-pull-request-action/actions/workflows/update-from-template.yml)
+[![Update From Template](https://github.com/infrastructure-blocks/create-pull-request-action/actions/workflows/update-from-template.yml/badge.svg)](https://github.com/infrastructure-blocks/create-pull-request-action/actions/workflows/update-from-template.yml)
 
 This action simply calls the GitHub API to create a pull request with the provided parameters.
 It also returns the response from the API as a stringified JSON output.
