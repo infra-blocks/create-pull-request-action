@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # create-pull-request-action
 
 This action simply calls the GitHub API to create a pull request with the provided parameters.
@@ -6,6 +7,23 @@ It also returns the response from the API as a stringified JSON output.
 If the authentication token passed is the generated GITHUB_TOKEN, it should have the
 pull-requests: write permissions. It should be noted also, that the GITHUB_TOKEN used when creating
 pull requests [*won't trigger the majority of workflows*.](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
+=======
+# composite-action-template
+[![Release](https://github.com/infrastructure-blocks/composite-action-template/actions/workflows/git-tag-semver-from-label.yml/badge.svg)](https://github.com/infrastructure-blocks/composite-action-template/actions/workflows/git-tag-semver-from-label.yml)
+[![Self Test](https://github.com/infrastructure-blocks/composite-action-template/actions/workflows/self-test.yml/badge.svg)](https://github.com/infrastructure-blocks/composite-action-template/actions/workflows/self-test.yml)
+[![Update Template Instances](https://github.com/infrastructure-blocks/composite-action-template/actions/workflows/trigger-update-from-template.yml/badge.svg)](https://github.com/infrastructure-blocks/composite-action-template/actions/workflows/trigger-update-from-template.yml)
+
+Upon creating a repository from this template:
+- Remove the [trigger-update-from-template workflow](.github/workflows/trigger-update-from-template.yml)
+- Add the [update-from-template](.github/workflows/update-from-template.yml) status badge.
+- Edit the action.yml to correspond to your new action
+- Edit the self-test workflow.
+- Update the status badges:
+  - Remove the `Trigger Update From Template` status badge.
+  - Add the `Update From Template` status badge.
+  - Rename the rest of the links to point to the right repository.
+- Edit this readme: this summary and the usage section.
+>>>>>>> template/master
 
 ## Inputs
 
