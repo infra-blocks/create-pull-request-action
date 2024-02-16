@@ -28,7 +28,8 @@ jobs:
         run: |
           git checkout -b ${{ steps.generate-id.outputs.branch }}
           git push origin ${{ steps.generate-id.outputs.branch }}
-      - uses: ./
+      - name: Invoke action
+        uses: ./
         id: self-test
         with:
           head: self-test/${{ steps.generate-id.outputs.id }}
@@ -37,6 +38,11 @@ jobs:
             Just a test ass branch
           body: |
             Just testinz
+      - name: Show outputs
+        env:
+          OUTPUTS: ${{ toJson(steps.self-test.outputs) }}
+        run: |
+          echo "${OUTPUTS}"
       - name: Close pull request
         run: |
           curl -L \
