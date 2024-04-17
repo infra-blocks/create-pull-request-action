@@ -43,10 +43,3 @@ If you're using the GITHUB_TOKEN, then it should have the following permissions:
     head: feature/your-branch
     base: main
 ```
-
-## Development
-
-### Releasing
-
-The releasing is handled at git level with semantic versioning tags. Those are automatically generated and managed
-by the [git-tag-semver-from-label-workflow](https://github.com/infrastructure-blocks/git-tag-semver-from-label-workflow).
