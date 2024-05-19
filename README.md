@@ -38,30 +38,8 @@ If you're using the GITHUB_TOKEN, then it should have the following permissions:
 ## Usage
 
 ```yaml
-<<<<<<< HEAD
 - uses: infra-blocks/create-pull-request-action@v1
   with:
     head: feature/your-branch
     base: main
-=======
-name: Template Usage
-
-on:
-  push: ~
-
-# The required permissions.
-permissions:
-  pull-requests: read
-
-# The suggested concurrency controls.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  example-job:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: infra-blocks/composite-action-template@v1
->>>>>>> template/master
 ```
