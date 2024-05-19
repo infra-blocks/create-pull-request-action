@@ -1,5 +1,5 @@
 # create-pull-request-action
-[![Release](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/git-tag-semver-from-label.yml/badge.svg)](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/git-tag-semver-from-label.yml)
+[![Release](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/release.yml/badge.svg)](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/release.yml)
 [![Self Test](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/self-test.yml/badge.svg)](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/self-test.yml)
 [![Update From Template](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/update-from-template.yml/badge.svg)](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/update-from-template.yml)
 
@@ -38,8 +38,30 @@ If you're using the GITHUB_TOKEN, then it should have the following permissions:
 ## Usage
 
 ```yaml
+<<<<<<< HEAD
 - uses: infra-blocks/create-pull-request-action@v1
   with:
     head: feature/your-branch
     base: main
+=======
+name: Template Usage
+
+on:
+  push: ~
+
+# The required permissions.
+permissions:
+  pull-requests: read
+
+# The suggested concurrency controls.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  example-job:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: infra-blocks/composite-action-template@v1
+>>>>>>> template/master
 ```
