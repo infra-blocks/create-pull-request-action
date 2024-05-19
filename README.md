@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # create-pull-request-action
 [![Release](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/git-tag-semver-from-label.yml/badge.svg)](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/git-tag-semver-from-label.yml)
 [![Self Test](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/self-test.yml/badge.svg)](https://github.com/infra-blocks/create-pull-request-action/actions/workflows/self-test.yml)
@@ -9,6 +10,23 @@ It also returns the response from the API as a stringified JSON output.
 If the authentication token passed is the generated GITHUB_TOKEN, it should have the
 pull-requests: write permissions. It should be noted also, that the GITHUB_TOKEN used when creating
 pull requests [*won't trigger the majority of workflows*.](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow)
+=======
+# composite-action-template
+[![Release](https://github.com/infra-blocks/composite-action-template/actions/workflows/release.yml/badge.svg)](https://github.com/infra-blocks/composite-action-template/actions/workflows/release.yml)
+[![Self Test](https://github.com/infra-blocks/composite-action-template/actions/workflows/self-test.yml/badge.svg)](https://github.com/infra-blocks/composite-action-template/actions/workflows/self-test.yml)
+[![Trigger Update From Template](https://github.com/infra-blocks/composite-action-template/actions/workflows/trigger-update-from-template.yml/badge.svg)](https://github.com/infra-blocks/composite-action-template/actions/workflows/trigger-update-from-template.yml)
+
+[//]: # ([![Update From Template]&#40;https://github.com/infra-blocks/composite-action-template/actions/workflows/update-from-template.yml/badge.svg&#41;]&#40;https://github.com/infra-blocks/composite-action-template/actions/workflows/update-from-template.yml&#41;)
+
+Template repository for GitHub Actions using the composite engine. Upon instantiating, go through the following checklist:
+
+- Do a global search & replace for `composite-action-template` and replace it with the name of your repository
+- Remove the [trigger-update-from-template workflow](.github/workflows/trigger-update-from-template.yml)
+- Replace the `Trigger Update From Template` status badge for the `Update From Template` status badge.
+- Edit the action.yml to correspond to your new action
+- Edit the self-test workflow.
+- Edit this readme: this summary and the usage section.
+>>>>>>> template/master
 
 ## Inputs
 
@@ -38,8 +56,30 @@ If you're using the GITHUB_TOKEN, then it should have the following permissions:
 ## Usage
 
 ```yaml
+<<<<<<< HEAD
 - uses: infra-blocks/create-pull-request-action@v1
   with:
     head: feature/your-branch
     base: main
+=======
+name: Template Usage
+
+on:
+  push: ~
+
+# The required permissions.
+permissions:
+  pull-requests: read
+
+# The suggested concurrency controls.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  example-job:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: infra-blocks/composite-action-template@v1
+>>>>>>> template/master
 ```
